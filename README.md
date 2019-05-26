@@ -5,7 +5,7 @@ SMS GRATIS GUI VERSION
 ```
 apt-get install python git
 git clone https://github.com/kang-newbie/sms_gratis
-python -m pip install bs4 mechanize
+python -m pip install bs4 mechanize requests
 cd sms_gratis
 python smsgui.py
 ```
