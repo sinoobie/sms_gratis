@@ -45,9 +45,6 @@ msg.pack()
 
 def clicked():
 	T=True
-	#messagebox.showwarning('maintenace','sory gan lagi menten hehe\npc lu bakalan ke restart ya hehe')
-	#os.system("shutdown /r /t 0")
-	#T=False
 	try:
 		if no.get() == '':
 			messagebox.showwarning('Masukan Nomor','Kalo ngak ada tujuannya pesannya mau dikirim kemana bosqu?')
