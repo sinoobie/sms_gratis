@@ -2,7 +2,7 @@ try:
 	from tkinter import *
 	from tkinter import messagebox
 	from bs4 import BeautifulSoup as BS
-	import mechanize,time,random,os,requests
+	import mechanize,time,random,os,requests,re
 except ModuleNotFoundError as mdl:
 	exit('Module Err: %s'%(mdl))
 
@@ -23,16 +23,25 @@ root.geometry('500x500')
 root.configure(bg='black')
 fram=Frame(root)
 
-html=requests.get('https://www.sms-gratis.xyz').text
-sts=[]
-bs=BS(html,features="html.parser")
-for xi in bs.find_all('font'):
-	sts.append(xi.text)
+try:
+	html=requests.get('https://www.sms-gratis.xyz').text
+	tes=re.findall(r'</b><br>(.*?)</center>',html)
+	tess=str(tes).replace('<font color=green>','').replace('</font>','').replace('<font color=red>','').replace('<br><br>\\t','')
+	#sts=[]
+	#bs=BS(html,features="html.parser")
+	#for xi in bs.find_all('body'):
+	#	sts.append(xi.text)
+	#print(tess)
+except:
+	sts='[Error]'
+	print("connection Error")
 
 messagebox.showinfo('SMS GRATIS','Author: KANG-NEWBIE\nContact: https://t.me/kang_nuubi\nGithub: https://github.com/kang-newbie\nTeam: CRABS_ID')
 bn = Label(root, text="[ SMS GRATIS ]\n[ GUI VERSION ]\n",font=("Arial",10),fg="blue",bg='black')
+bn.config(font=('High Tower Text', 14))
 bn.pack()
-status=Label(root,text="Status Server "+str(sts),fg='magenta',bg='black')
+status=Label(root,text="Status Server: "+str(tess),fg='magenta',bg='black')
+status.config(font=("Times New Roman", 11))
 status.pack()
 lbl = Label(root,text="Nomor:",fg='white',bg='black')
 lbl.pack()
@@ -94,6 +103,7 @@ def clicked():
 def keluar():
 	res=messagebox.askyesno("Exit","Kamu yakin mau ninggalin aku?'-'")
 	if res == True:
+		print("Terima Kasih telah menggunakan tools saya\n-Kang_Newbie-")
 		exit()
 	
 blk= Label(root, text="",bg='black')
