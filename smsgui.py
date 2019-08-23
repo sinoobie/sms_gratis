@@ -22,16 +22,10 @@ root.title("SMS GRATIS [GUI]")
 root.geometry('500x500')
 root.configure(bg='black')
 fram=Frame(root)
-
 try:
 	html=requests.get('https://www.sms-gratis.xyz').text
 	tes=re.findall(r'</b><br>(.*?)</center>',html)
 	tess=str(tes).replace('<font color=green>','').replace('</font>','').replace('<font color=red>','').replace('<br><br>\\t','')
-	#sts=[]
-	#bs=BS(html,features="html.parser")
-	#for xi in bs.find_all('body'):
-	#	sts.append(xi.text)
-	#print(tess)
 except:
 	sts='[Error]'
 	print("connection Error")
@@ -51,6 +45,12 @@ lbl2 = Label(root, text="Pesan:",fg='white',bg='black')
 lbl2.pack()
 msg = Entry(root,width=50,bd=3)
 msg.pack()
+Sid = Scrollbar(fram, width=12)
+Tex = Text(fram, height=12, width=55, fg='white', bg='black')
+Sid.pack(side=RIGHT, fill=Y)
+Tex.pack(side=BOTTOM, fill=BOTH, expand=1)
+Sid.config(command=Tex.yview)
+Tex.config(yscrollcommand=Sid.set)
 
 def clicked():
 	T=True
@@ -68,7 +68,7 @@ def clicked():
 		bs=BS(br.open('https://www.sms-gratis.xyz'),features="html.parser")
 		for x in bs.find_all("b"):
 			o.append(x.text)
-		ja=o[1].split(' ')
+		ja=o[0].split(' ')
 		a=int(ja[0])
 		x=ja[1]
 		b=int(ja[2])
@@ -91,26 +91,30 @@ def clicked():
 			sub=br.submit().read()
 			#print(sub)
 			if 'SMS Berhasil Dikirim' in str(sub):
-				label0=Label(root,text='[+] Terkirim ke %s'%(no.get()),fg='white',bg='black')
-				label0.pack()
+				stat=f"[+] Terkirim ke {no.get()}\n"
 			elif 'Limit Telah Tercapai' in str(sub):
-				label1=Label(root,text='[!] Nomor terkena limit. Silahkan kembali beberapa saat lagi',fg='white',bg='black')
-				label1.pack()
-			else: label2=Label(root,text='[-] Gagal Terkirim ke %s'%(no.get()),fg='white',bg='black');label2.pack()
+				stat="[!] Nomor terkena limit. Silahkan kembali beberapa saat lagi\n"
+			else:
+				stat=f"[-] Gagal Terkirim ke {no.get()}\n"
+			Tex.insert(END, stat)
 	except:
 		messagebox.showerror('Error','Sepertinya ada yang salah. coba:\nPriksa koneksi internet anda atau\nLaporkan ke author')
 	
 def keluar():
-	res=messagebox.askyesno("Exit","Kamu yakin mau ninggalin aku?'-'")
+	res=messagebox.askyesno("Exit","Kamu yakin mau ninggalin aku?'-'",default='no')
 	if res == True:
 		print("Terima Kasih telah menggunakan tools saya\n-Kang_Newbie-")
 		exit()
 	
+fram2=Frame(root)
 blk= Label(root, text="",bg='black')
-btn = Button(fram, text="   SEND   ",bg="blue",fg="white",command=clicked)
-btn2 = Button(fram, text="exit",bg="red",fg="white",command=keluar)
+btn = Button(fram2, text="   SEND   ",bg="blue",fg="white",command=clicked)
+btn2 = Button(fram2, text="    EXIT    ",bg="red",fg="white",command=keluar)
 blk.pack()
 btn.pack(side=RIGHT)
 btn2.pack(side=LEFT)
+fram2.pack()
+stus=Label(root,text="\nRESULT :",fg='white',bg='black')
+stus.pack()
 fram.pack()
 root.mainloop()
